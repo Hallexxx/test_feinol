@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { validateForm } from "./validators";
+import { validateForm } from "./validator";
 
 /**
  * Application principale.

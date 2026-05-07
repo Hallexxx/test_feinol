@@ -4,7 +4,7 @@ const {
   isValidPostalCode,
   isAdult,
   validateForm
-} = require("./validators");
+} = require("./validator");
 
 describe("validators unit tests", () => {
   test("should validate text", () => {

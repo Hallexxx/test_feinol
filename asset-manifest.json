@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/test_feinol/static/css/main.e6c13ad2.css",
+    "main.js": "/test_feinol/static/js/main.f9e1a2e2.js",
+    "static/js/453.e9e7ec89.chunk.js": "/test_feinol/static/js/453.e9e7ec89.chunk.js",
+    "index.html": "/test_feinol/index.html",
+    "main.e6c13ad2.css.map": "/test_feinol/static/css/main.e6c13ad2.css.map",
+    "main.f9e1a2e2.js.map": "/test_feinol/static/js/main.f9e1a2e2.js.map",
+    "453.e9e7ec89.chunk.js.map": "/test_feinol/static/js/453.e9e7ec89.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.f9e1a2e2.js"
+  ]
+}

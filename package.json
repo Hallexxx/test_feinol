@@ -19,7 +19,8 @@
     "test": "./node_modules/.bin/react-scripts test --coverage --collectCoverageFrom=src/**/*.{js,jsx} --collectCoverageFrom=!src/reportWebVitals.js --collectCoverageFrom=!src/index.js --watchAll=false",
     "eject": "./node_modules/.bin/react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "./node_modules/.bin/gh-pages -d build"
+    "deploy": "./node_modules/.bin/gh-pages -d build",
+    "jsdoc": "jsdoc -R ./README.md -c ./jsdoc.config.json -r -d ./public/docs"
   },
   "eslintConfig": {
     "extends": [

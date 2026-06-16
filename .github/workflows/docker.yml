@@ -2,9 +2,6 @@ name: Docker Pipeline
 on:
   push:
     branches: [ main ]
-defaults:
-  run:
-    working-directory: ./front
 jobs:
   build-docker:
     runs-on: ubuntu-latest

@@ -1,0 +1,44 @@
+name: Docker Pipeline
+on:
+  push:
+    branches: [ main ]
+defaults:
+  run:
+    working-directory: ./front
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker login
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+      - name: Build and push front
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/front -f front/Dockerfile ./front
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/front
+      - name: Build and push back
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/back -f server/Dockerfile ./server
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/back
+  test-docker:
+    runs-on: ubuntu-latest
+    needs: build-docker
+    env:
+      MYSQL_ROOT_PASSWORD: ynovpwd
+      MYSQL_DATABASE: ynovdb
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build mysql image
+        run: docker build -t migration_mysql .
+      - name: Start docker compose
+        run: docker compose up -d --build
+      - name: Wait
+        run: sleep 40
+      - name: Show containers
+        run: docker ps
+      - name: Check health
+        run: |
+          docker inspect --format "{{json .State.Health.Status }}" my-app-db-1 | jq '. == "healthy"'
+          docker inspect --format "{{json .State.Health.Status }}" my-app-adminer-1 | jq '. == "healthy"'
+          docker inspect --format "{{json .State.Health.Status }}" my-app-api-1 | jq '. == "healthy"'
+          docker inspect --format "{{json .State.Health.Status }}" my-app-front-1 | jq '. == "healthy"'

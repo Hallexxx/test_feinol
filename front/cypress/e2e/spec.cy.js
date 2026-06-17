@@ -1,0 +1,26 @@
+describe('User form e2e', () => {
+  it('ajoute un utilisateur sans erreur', () => {
+    cy.visit('http://localhost:3000')
+    cy.contains('0 user already registered')
+    cy.contains('Formulaire').click()
+    cy.get('[data-cy=nom]').type('Perez')
+    cy.get('[data-cy=prenom]').type('Alexandre')
+    cy.get('[data-cy=email]').type('alex@ynov.com')
+    cy.get('[data-cy=submit]').click()
+    cy.visit('http://localhost:3000')
+    cy.contains('1 user already registered')
+  })
+
+  it('n’ajoute pas un utilisateur avec erreur', () => {
+    cy.visit('http://localhost:3000')
+    cy.contains('1 user already registered')
+    cy.contains('Formulaire').click()
+    cy.get('[data-cy=nom]').type('Perez')
+    cy.get('[data-cy=prenom]').type('Alexandre')
+    cy.get('[data-cy=email]').type('email-invalide')
+    cy.get('[data-cy=submit]').click()
+    cy.contains('Erreur')
+    cy.visit('http://localhost:3000')
+    cy.contains('1 user already registered')
+  })
+})

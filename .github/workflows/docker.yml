@@ -52,6 +52,8 @@ jobs:
         run: docker compose up -d --build
       - name: Wait
         run: sleep 40
+      - name: Fix permissions
+        run: sudo chown -R $USER:$USER front
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:

@@ -1,6 +1,6 @@
 import './App.css';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 function App() {
   const port = process.env.REACT_APP_SERVER_PORT;
@@ -8,18 +8,18 @@ function App() {
   const [privateUser, setPrivateUser] = useState(null);
   const [error, setError] = useState('');
 
-  async function loadUsers() {
+  const loadUsers = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:${port}/users`);
       setUsers(response.data.Utilisateurs);
     } catch (error) {
       setError('Erreur');
     }
-  }
+  }, [port]);
 
   useEffect(() => {
     loadUsers();
-  }, []);
+  }, [loadUsers]);
 
   async function handleSubmit() {
     const nom = document.querySelector('[data-cy=nom]').value;

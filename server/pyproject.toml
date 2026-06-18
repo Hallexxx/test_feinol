@@ -1,0 +1,11 @@
+[project]
+name = "my-app-server"
+version = "0.1.0"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "mysql-connector-python",
+]
+
+[project.scripts]
+app = "main:app"

@@ -8,6 +8,10 @@ on:
 defaults:
   run:
     working-directory: ./front
+
+permissions:
+  contents: read
+
 jobs:
   test-unit:
     runs-on: ubuntu-latest
@@ -30,14 +34,17 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Setup Pages
+        if: github.event_name == 'push'
         id: pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
+        if: github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build
+          path: front/build
           if-no-files-found: error
   deploy-front-pages:
+    if: github.event_name == 'push'
     needs: test-unit
     environment:
       name: github-pages

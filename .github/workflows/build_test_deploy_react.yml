@@ -1,26 +1,20 @@
 name: Build, Test and Deploy React Application
 
-# Controls when the action will run.
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+defaults:
+  run:
+    working-directory: ./front
 jobs:
-  build_test:
-    # The type of runner that the job will run on
+  test-unit:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [20.x]
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -41,27 +35,17 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the build folder produced by react-scripts
           path: build
           if-no-files-found: error
-
-  # Deploy job
-  deploy:
-    # Wait for build_test to succeed before deploying
-    needs: build_test
-
-    # Deploy to the github-pages environment
+  deploy-front-pages:
+    needs: test-unit
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     runs-on: ubuntu-latest
-
-    # Grant GITHUB_TOKEN the permissions required to make a page deployment
     permissions:
       pages: write
       id-token: write
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

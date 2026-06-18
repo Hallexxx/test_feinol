@@ -4,7 +4,6 @@ services:
 
   db:
     image: migration_mysql
-
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -62,6 +61,8 @@ services:
       - /app/node_modules
     environment:
       - REACT_APP_SERVER_PORT=8000
+      - REACT_APP_ADMIN_EMAIL=loise.fenoll@ynov.com
+      - REACT_APP_ADMIN_PASSWORD=PvdrTAzTeR247sDnAZBr
     command: npm start
     depends_on:
       api:

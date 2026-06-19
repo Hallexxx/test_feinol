@@ -12,6 +12,9 @@ defaults:
 permissions:
   contents: read
 
+env:
+  REACT_APP_API_URL: https://test-feinol-3mb2.vercel.app
+
 jobs:
   test-unit:
     runs-on: ubuntu-latest

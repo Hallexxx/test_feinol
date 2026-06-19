@@ -3,19 +3,25 @@ import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 
 function App() {
-  const port = process.env.REACT_APP_SERVER_PORT;
+  const localApiUrl = `http://localhost:${process.env.REACT_APP_SERVER_PORT || 8000}`;
+  const apiUrl = (
+    process.env.REACT_APP_API_URL ||
+    (process.env.NODE_ENV === 'production'
+      ? 'https://test-feinol-3mb2.vercel.app'
+      : localApiUrl)
+  ).replace(/\/$/, '');
   const [users, setUsers] = useState([]);
   const [privateUser, setPrivateUser] = useState(null);
   const [error, setError] = useState('');
 
   const loadUsers = useCallback(async () => {
     try {
-      const response = await axios.get(`http://localhost:${port}/users`);
+      const response = await axios.get(`${apiUrl}/users`);
       setUsers(response.data.Utilisateurs);
     } catch (error) {
       setError('Erreur');
     }
-  }, [port]);
+  }, [apiUrl]);
 
   useEffect(() => {
     loadUsers();
@@ -31,7 +37,7 @@ function App() {
     }
     try {
       await axios.post(
-        `http://localhost:${port}/users`,
+        `${apiUrl}/users`,
         {
           nom,
           prenom,
@@ -47,7 +53,7 @@ function App() {
   }
 
   async function showDetails(id) {
-    const response = await axios.get(`http://localhost:${port}/users/${id}`);
+    const response = await axios.get(`${apiUrl}/users/${id}`);
     setPrivateUser(response.data.Utilisateur);
   }
 
@@ -61,7 +67,7 @@ function App() {
       setError('Erreur');
       return;
     }
-    await axios.delete(`http://localhost:${port}/users/${id}`);
+    await axios.delete(`${apiUrl}/users/${id}`);
     loadUsers();
   }
 
